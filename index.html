@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <base href="/">
+<script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
 <title>SCP Foundation — fan-project</title>
@@ -118,6 +119,105 @@ h1{font-family:var(--head);font-weight:700;font-size:30px;letter-spacing:1px;lin
   #content{padding:20px 14px 32px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== Светлая тема (в духе официального сайта, в серых тонах) ===== */
+html{color-scheme:dark}
+html[data-theme="light"]{color-scheme:light;--bg:#ececec;--panel:#e2e2e2;--line:#d0d0d0;--line-hi:#b4b4b4;--text:#2b2b2b;--muted:#6b6b6b;--dim:#888;--mono:system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+html[data-theme="light"] body{background:linear-gradient(#d4d4d4 0,#ececec 280px) no-repeat,#ececec;font-size:15px}
+html[data-theme="light"] :focus-visible{outline-color:#555}
+html[data-theme="light"] #header{--text:#e8e8e8;--muted:#9a9a9a;--line-hi:#bdbdbd;color:#e8e8e8;background:repeating-linear-gradient(45deg,rgba(255,255,255,.06) 0 3px,rgba(0,0,0,0) 3px 9px),linear-gradient(to bottom,#000 0%,#161616 40%,#4a4a4a 100%);border-bottom:1px solid #2a2a2a;box-shadow:0 2px 4px rgba(0,0,0,.35)}
+html[data-theme="light"] #content{background:#fff;border:1px solid #cdcdcd;box-shadow:0 1px 4px rgba(0,0,0,.18);margin:20px auto 28px}
+@media(max-width:1140px){html[data-theme="light"] #content{margin:0 auto;border-left:0;border-right:0}}
+html[data-theme="light"] #footer{color:#777;border-top-color:#cfcfcf}
+html[data-theme="light"] #scrim{background:rgba(0,0,0,.35)}
+html[data-theme="light"] #nav{background:#f4f4f4;border-right:1px solid #c4c4c4;box-shadow:2px 0 8px rgba(0,0,0,.2)}
+html[data-theme="light"] .nav-item{color:#444;border-bottom:1px solid #e3e3e3}
+html[data-theme="light"] .nav-item:hover{background:linear-gradient(#fafafa,#e6e6e6);color:#000}
+html[data-theme="light"] .nav-item.active{color:#000;background:#e2e2e2;border-left-color:#555}
+html[data-theme="light"] .nav-group{color:#777;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #d6d6d6;margin:0 22px;padding:14px 0 4px}
+html[data-theme="light"] .classes button{color:#444;border-color:#bdbdbd;background:linear-gradient(#fcfcfc,#e4e4e4)}
+html[data-theme="light"] .classes button:hover,html[data-theme="light"] .classes button.active{border-color:#555;background:#555;color:#fff}
+html[data-theme="light"] .nav-sep{background:#d6d6d6}
+html[data-theme="light"] h1{color:#333}
+html[data-theme="light"] .box{border-color:#c9c9c9;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+html[data-theme="light"] .box>h2{background:linear-gradient(#ececec,#d9d9d9);color:#444;border-bottom:1px solid #c4c4c4;font-size:15px;text-transform:uppercase;letter-spacing:1px;padding:5px 14px}
+html[data-theme="light"] .box-btn{background:linear-gradient(#fcfcfc,#e0e0e0);border:1px solid #c9c9c9;border-radius:4px;box-shadow:0 1px 3px rgba(0,0,0,.2);color:#444;text-transform:uppercase;padding:10px 16px}
+html[data-theme="light"] .box-btn:hover{background:linear-gradient(#f2f2f2,#d6d6d6);color:#000}
+html[data-theme="light"] .box .in{color:#333;background:#fff}
+html[data-theme="light"] .box .in a:hover{color:#000}
+html[data-theme="light"] .box .in a,html[data-theme="light"] .art a,html[data-theme="light"] .alist a,html[data-theme="light"] .tbl a,html[data-theme="light"] .cm-h a,html[data-theme="light"] .afoot a,html[data-theme="light"] .note a{color:#3a3a3a;text-decoration:underline;text-underline-offset:2px}
+html[data-theme="light"] .mini{background:linear-gradient(#fcfcfc,#e2e2e2);border:1px solid #bdbdbd;border-radius:3px;color:#333;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+html[data-theme="light"] .mini:hover{background:linear-gradient(#f0f0f0,#d4d4d4);color:#000}
+html[data-theme="light"] .mini[style*="e8e8e8"]{background:#555!important;color:#fff!important;border-color:#555}
+html[data-theme="light"] .rsel{background:#fff;color:#222}
+html[data-theme="light"] .cab-head b,html[data-theme="light"] .cab-role,html[data-theme="light"] .steps li::before{color:#222}
+html[data-theme="light"] .tbl th{background:#e9e9e9;color:#444}
+html[data-theme="light"] .tbl td{border-top-color:#ddd}
+html[data-theme="light"] .redact{background:#ddd}
+html[data-theme="light"] .fm label,html[data-theme="light"] .legend,html[data-theme="light"] .pfx span,html[data-theme="light"] .adate,html[data-theme="light"] .pf-stats,html[data-theme="light"] .cm-h,html[data-theme="light"] .cm-a a,html[data-theme="light"] .art blockquote{color:#555}
+html[data-theme="light"] .fm input,html[data-theme="light"] .fm select,html[data-theme="light"] .fm textarea{background:#fff;color:#222;border-color:#aaa;border-radius:2px}
+html[data-theme="light"] .pfx{border-color:#aaa}
+html[data-theme="light"] .art code{background:#eee}
+html[data-theme="light"] .art pre{background:#f6f6f6;border-color:#c9c9c9}
+html[data-theme="light"] .art hr,html[data-theme="light"] .afoot{border-color:#ccc}
+html[data-theme="light"] .coll{border-color:#c9c9c9}
+html[data-theme="light"] .coll summary{background:linear-gradient(#efefef,#dcdcdc);color:#333}
+html[data-theme="light"] .coll-in,html[data-theme="light"] .cm-kids{border-color:#ddd}
+html[data-theme="light"] .rbox{background:#f8f8f8;border-color:#bdbdbd;box-shadow:0 1px 2px rgba(0,0,0,.15)}
+html[data-theme="light"] .rbox a{color:#222}
+html[data-theme="light"] .star{color:#bbb}
+html[data-theme="light"] .star.on{color:#e0a800}
+html[data-theme="light"] .star:hover{color:#000}
+html[data-theme="light"] .mback{background:rgba(0,0,0,.45)}
+html[data-theme="light"] .mwin{background:#fff;border-color:#888;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+html[data-theme="light"] .bar{background:#ddd}
+html[data-theme="light"] .cm-h b,html[data-theme="light"] .pf-stats b{color:#000}
+html[data-theme="light"] .role{border-color:#aaa}
+html[data-theme="light"] .note{background:#f7f7f7;border-color:#cfcfcf;color:#555}
+html[data-theme="light"] .pf-ava{border-color:#aaa;background:#f0f0f0;color:#777}
+html[data-theme="light"] .pf-ava img{background:#f0f0f0}
+html[data-theme="light"] .df.add{background:#e6f4e8}
+html[data-theme="light"] .df.del{background:#fbe9e9}
+html[data-theme="light"] .df.gap{color:#999}
+#theme-btn{border-top:1px solid var(--line);margin-top:10px}
+/* быстрые ссылки под шапкой */
+#topnav{display:flex;overflow-x:auto;white-space:nowrap;scrollbar-width:none;background:var(--panel);border-bottom:1px solid var(--line-hi)}
+#topnav::-webkit-scrollbar{display:none}
+#topnav button{flex:none;padding:9px 18px;font-size:14px;color:var(--text);border-right:1px solid var(--line)}
+#topnav button:hover{background:var(--line);text-decoration:underline;text-underline-offset:4px}
+/* ===== Мобильная версия ===== */
+@media(max-width:760px){
+  #header{gap:8px;padding:0 8px}
+  .brand{flex:1;gap:8px;min-width:0}
+  .brand img{width:38px;height:38px}
+  .brand span{min-width:0;overflow:hidden}
+  .brand b{font-size:17px;line-height:1.05;letter-spacing:.5px;white-space:normal}
+  .brand small{display:none}
+  #search{width:38px;flex:none;max-width:none;height:38px}
+  #search input{display:none}
+  #search button{padding:0;width:100%;height:100%;font-size:20px;color:#fff}
+  #search.open{position:fixed;left:0;right:0;top:var(--hdr);width:auto;height:48px;z-index:99;background:#000;border:0;border-bottom:1px solid var(--line-hi)}
+  #search.open input{display:block}
+  #search.open button{width:48px}
+  #auth-user{gap:8px;padding:4px 8px;font-size:12px}
+  #auth-name{font-size:14px;max-width:72px;overflow:hidden;text-overflow:ellipsis;display:inline-block;vertical-align:bottom}
+  #auth-guest .btn{padding:6px 10px}
+  #topnav button{padding:10px 14px;font-size:13px}
+  .tab h1{font-size:24px;line-height:1.2;overflow-wrap:anywhere}
+  .art,.cm-b,.note,.pf-bio,.alist{overflow-wrap:anywhere}
+  .art ul,.art ol{padding-left:24px}
+  .fm .mdbar{display:flex;gap:6px;overflow-x:auto;white-space:nowrap;padding-bottom:4px}.fm .mdbar .mini{flex:none}
+  input,textarea,select{font-size:16px!important}
+  .mini{padding:9px 12px;margin:2px 0}
+  .cm-a a{display:inline-block;padding:8px 10px 8px 0}
+  .star{font-size:28px;padding:0 3px}
+  .rbox .star{font-size:26px}
+  .cm-kids{margin-left:8px;padding-left:6px}
+  .pf-head{gap:12px}.pf-ava{width:72px;height:72px;font-size:30px}
+  .afoot .aopts{text-align:left}
+  .mwin{width:90vw;padding:12px 14px}
+  .df{font-size:13px}
+}
 .fm label{display:block;margin-top:8px;color:#bbb}
 .fm input,.fm select,.fm textarea{background:#000;color:#e8e8e8;border:1px solid #e8e8e8;font:inherit;padding:8px;width:100%;box-sizing:border-box;margin:6px 0 12px}
 .art p{line-height:1.8}.alist{line-height:2}.alist a,.tbl a{color:#fff}
@@ -174,6 +274,7 @@ h1{font-family:var(--head);font-weight:700;font-size:30px;letter-spacing:1px;lin
     <div id="auth-guest"><a class="btn" href="#" onclick="telegramLogin();return false">Вход</a></div>
     <div id="auth-user"><span id="auth-name" data-page="cabinet" title="Кабинет"></span><span id="auth-role"></span><span class="logout" onclick="logout()">выйти</span></div>
   </header>
+  <nav id="topnav" aria-label="Быстрые ссылки"><button data-page="authors">Автору</button><button data-page="rules">Правила</button><button data-page="stories">Рассказы</button><button data-page="hubs">Хабы</button><button data-page="discussion">Обсуждение</button><button data-page="license">Лицензия</button></nav>
 
   <div id="notice" style="display:none;padding:10px 20px;background:#222;border-bottom:1px solid #e8e8e8;text-align:center"></div>
   <div id="scrim"></div>
@@ -205,6 +306,8 @@ h1{font-family:var(--head);font-weight:700;font-size:30px;letter-spacing:1px;lin
     <button class="nav-item" data-page="contacts">Контакты</button>
     <button class="nav-item" data-page="discussion">Обсуждение</button>
     <button class="nav-item" data-page="license">Лицензия</button>
+    <div class="nav-sep"></div>
+    <button class="nav-item" id="theme-btn" type="button" onclick="toggleTheme()">☀ Дневная тема</button>
   </nav>
 
   <main id="content">
@@ -988,6 +1091,25 @@ G().addEventListener('click',async function(e){
     histView(window.VER.article.id);
   }
 });
+
+/* Тема оформления */
+function applyTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  try{localStorage.setItem('theme',t)}catch(e){}
+  var b=document.getElementById('theme-btn');if(b)b.textContent=t==='light'?'☾ Ночная тема':'☀ Дневная тема';
+}
+function toggleTheme(){applyTheme(document.documentElement.getAttribute('data-theme')==='light'?'dark':'light')}
+applyTheme(document.documentElement.getAttribute('data-theme')==='light'?'light':'dark');
+
+/* Мобильный поиск: значок раскрывается в строку */
+(function(){
+  var f=document.getElementById('search');if(!f)return;
+  f.querySelector('button').addEventListener('click',function(e){
+    if(window.innerWidth<=760&&!f.classList.contains('open')){e.preventDefault();f.classList.add('open');document.getElementById('q').focus()}
+  });
+  document.addEventListener('click',function(e){if(!e.target.closest('#search'))f.classList.remove('open')});
+  f.addEventListener('submit',function(){setTimeout(function(){f.classList.remove('open')},0)});
+})();
 
 /* Ссылки на статьи и маршрутизация по адресу */
 document.addEventListener('click',function(e){
