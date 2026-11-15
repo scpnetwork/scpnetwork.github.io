@@ -318,6 +318,8 @@ html[data-theme="light"] .df.gap{color:#999}
       <button class="nav-item" data-page="polygon" data-min="2">Редактор</button>
       <button class="nav-item" data-page="review" data-min="3">Проверка статей</button>
       <button class="nav-item" data-page="moderation" data-min="3">Модерация</button>
+      <button class="nav-item" data-page="audit" data-min="3">Журнал</button>
+      <button class="nav-item" data-page="bot" data-min="4">Бот</button>
       <button class="nav-item" data-page="users" data-min="3">Заявки и пользователи</button>
       <button class="nav-item" data-page="manage" data-min="4">Публикации</button>
     </div>
@@ -385,6 +387,8 @@ var PAGES = {
   review:{t:'Проверка статей',s:'Очередь',b:'<p>Статьи со статусом «завершено»: принять или отклонить с обратной связью.</p>'+WIP},
   moderation:{t:'Модерация',s:'Комментарии и оценки',b:WIP},
   publish:{t:'На публикацию',s:'Одобрено администраторами',b:'<p>Выпустить статью или отклонить с комментарием.</p>'+WIP},
+  audit:{t:'Журнал действий',s:'Кто что делал на сайте',b:''},
+  bot:{t:'Бот',s:'Тексты сообщений и настройка бота',b:''},
   manage:{t:'Публикации',s:'Опубликованные статьи',b:''},
   users:{t:'Заявки и пользователи',s:'Все входы на сайт',b:''},
   stories:{t:'Рассказы',s:'Каталог',b:WIP},
@@ -433,7 +437,7 @@ function openPage(id,np){
     document.getElementById('g-body').innerHTML=p.b;
     show('generic');
     if(id==='users')renderUsers();
-    if(id==='polygon')polyList();if(id==='review')queueView('admin');if(id==='publish')queueView('lead');if(id==='manage')manageList();if(id==='moderation')modView('reports');if(id==='stories')listView('story');if(id==='hubs')listView('hub');
+    if(id==='polygon')polyList();if(id==='review')queueView('admin');if(id==='publish')queueView('lead');if(id==='manage')manageList();if(id==='moderation')modView('reports');if(id==='bot')botView();if(id==='audit')auditView('','');if(id==='stories')listView('story');if(id==='hubs')listView('hub');
   }
   mark(document.querySelector('#nav .nav-item[data-page="'+id+'"]'));
   setNav(false);
@@ -1383,6 +1387,55 @@ async function openPreview(tk){
   var mt=document.querySelector('meta[name=robots]');if(!mt){mt=document.createElement('meta');mt.name='robots';document.head.appendChild(mt)}mt.content='noindex';
   B.innerHTML='<div class="note">Черновик. Доступен только по этой ссылке. Автор: '+esc(a.author_name)+'</div>'+artOpen(a)+bodyFmt(a)+'</div>'+authBlock(a);mountAll(B);
 }
+
+/* Бот: тексты сообщений */
+async function botView(){
+  var b=G();b.textContent='Загрузка…';
+  var d=await api('tpl_list');if(!d.ok){b.textContent='Нет доступа или ошибка: '+errText(d);return}
+  var h='<p><button class="mini" data-bot="setup">Настроить бота</button> <span id="bot-msg" class="cm-hint">Задаёт команды, приветствие и приём команд (нажмите один раз, потом после смены домена).</span></p><p class="cm-hint">В текстах работают теги Telegram: &lt;b&gt;жирный&lt;/b&gt;, &lt;i&gt;курсив&lt;/i&gt;, &lt;code&gt;код&lt;/code&gt;, &lt;a href=&quot;…&quot;&gt;ссылка&lt;/a&gt; и подстановки в фигурных скобках.</p>';
+  d.templates.forEach(function(t){
+    h+='<div class="note" data-tk="'+esc(t.key)+'"><b>'+esc(t.title)+'</b>'+(t.custom?' <span class="blk">изменён</span>':'')+'<div class="dt">Подстановки: '+(t.vars.length?t.vars.map(function(v){return'{'+v+'}'}).join(' '):'нет')+'</div><textarea rows="5" maxlength="3000">'+esc(t.text)+'</textarea><button class="mini" data-bot="save">Сохранить</button> <button class="mini" data-bot="reset">Вернуть стандартный</button> <button class="mini" data-bot="test">Отправить мне тест</button> <span class="cm-err"></span></div>';
+  });
+  b.innerHTML=h;
+}
+G().addEventListener('click',async function(e){
+  var t=e.target.closest('[data-bot]');if(!t)return;e.preventDefault();var k=t.dataset.bot;
+  if(k==='setup'){
+    var m=document.getElementById('bot-msg');m.textContent='Настраиваю…';
+    var d=await api('tg_setup');
+    m.textContent=d.ok?'Готово'+(d.bot?': бот @'+d.bot+' принимает команды':'')+'.':'Не удалось: '+(d.description||errText(d));return;
+  }
+  var box=t.closest('[data-tk]'),key=box.dataset.tk,er=box.querySelector('.cm-err'),text=box.querySelector('textarea').value;er.style.color='';er.textContent='';
+  if(k==='save'){var d1=await api('tpl_save',{key:key,text:text});if(d1.ok){er.style.color='#4caf50';er.textContent='Сохранено';}else er.textContent=errText(d1)}
+  else if(k==='test'){var d2=await api('tpl_test',{key:key,text:text});if(d2.ok){er.style.color='#4caf50';er.textContent='Отправлено вам в Telegram'}else er.textContent='Не отправилось: '+(d2.description||errText(d2))}
+  else if(k==='reset'){if(!confirm('Вернуть стандартный текст?'))return;var d3=await api('tpl_reset',{key:key});if(d3.ok)botView();else er.textContent=errText(d3)}
+});
+
+/* Журнал действий */
+var ACT_RU={publish:'опубликовал(а) статью',unpublish:'снял(а) с публикации',article_delete:'удалил(а) статью',article_reject:'отклонил(а) статью',article_edit:'отредактировал(а) опубликованную статью',version_restore:'откатил(а) статью',user_status:'изменил(а) статус пользователя',user_role:'изменил(а) роль пользователя',comment_delete:'удалил(а) комментарий',report_dismiss:'отклонил(а) жалобу на комментарий',tpl_save:'изменил(а) шаблон бота',tpl_reset:'сбросил(а) шаблон бота',tg_setup:'настроил(а) бота:'};
+window.AU={group:'',q:'',list:[],more:false};
+async function auditView(group,q){window.AU.group=group||'';window.AU.q=q||'';window.AU.list=[];await auditLoad(false)}
+async function auditLoad(append){
+  var b=G(),A=window.AU;if(!append)b.textContent='Загрузка…';
+  var d=await api('audit_list',{group:A.group,q:A.q,before:append&&A.list.length?A.list[A.list.length-1].created_at:null});
+  if(!d.ok){b.textContent='Нет доступа или ошибка: '+errText(d);return}
+  A.list=A.list.concat(d.entries);A.more=d.more;auditDraw();
+}
+function auditDraw(){
+  var A=window.AU,GR=[['','Все'],['users','Пользователи'],['articles','Статьи'],['comments','Комментарии'],['bot','Бот']];
+  var h='<p>'+GR.map(function(g){return'<button class="mini" data-au="grp" data-g="'+g[0]+'"'+(A.group===g[0]?' style="background:#e8e8e8;color:#000"':'')+'>'+g[1]+'</button>'}).join(' ')+'</p><div class="fm"><input id="au-q" placeholder="Поиск по имени или названию" value="'+esc(A.q)+'"></div><p><button class="mini" data-au="find">Найти</button></p>';
+  h+=A.list.length?'<div style="overflow-x:auto"><table class="tbl"><tr><th>Время</th><th>Кто</th><th>Действие</th></tr>'+A.list.map(function(e){
+    var lab=e.ref?(e.ref.indexOf('/u/')===0?'<a href="'+esc(e.ref)+'" data-user="'+esc(e.ref.slice(3))+'">'+esc(e.label)+'</a>':'<a href="'+esc(e.ref)+'" data-slug="'+esc(e.ref.slice(1))+'">'+esc(e.label)+'</a>'):esc(e.label);
+    return'<tr><td>'+dstr(e.created_at)+'</td><td>'+esc(e.actor_name)+'</td><td>'+esc(ACT_RU[e.action]||e.action)+' '+lab+(e.details?'<div class="cm-q">'+esc(e.details)+'</div>':'')+'</td></tr>'}).join('')+'</table></div>':'<p>Записей нет.</p>';
+  if(A.more)h+='<p><button class="mini" data-au="more">Показать ещё</button></p>';
+  G().innerHTML=h;
+}
+G().addEventListener('click',function(e){
+  var t=e.target.closest('[data-au]');if(!t)return;e.preventDefault();var k=t.dataset.au;
+  if(k==='grp')auditView(t.dataset.g,window.AU.q);
+  else if(k==='find')auditView(window.AU.group,V('au-q'));
+  else if(k==='more')auditLoad(true);
+});
 
 function afterLogin(){
   var rt=sessionStorage.getItem('return_to');sessionStorage.removeItem('return_to');
