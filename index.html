@@ -311,6 +311,7 @@ html[data-theme="light"] .df.gap{color:#999}
   <div id="scrim"></div>
   <nav id="nav" aria-label="Основное меню">
     <button class="nav-item active" data-page="home">Главная</button>
+      <button class="nav-item" data-rand="1">Случайная статья</button>
     <div class="only-auth">
       <div class="nav-sep"></div>
       <div class="nav-group">Рабочие разделы</div>
@@ -1436,6 +1437,14 @@ G().addEventListener('click',function(e){
   else if(k==='find')auditView(window.AU.group,V('au-q'));
   else if(k==='more')auditLoad(true);
 });
+
+/* Случайная статья */
+async function randomArticle(){
+  var d=await api('random_article',{exclude:(window.ART&&window.ART.slug)||''});
+  if(!d.ok){alert('Пока нет опубликованных статей.');return}
+  history.pushState(null,'','/'+d.slug);openArticle(d.slug);
+}
+document.addEventListener('click',function(e){if(e.target.closest('[data-rand]')){e.preventDefault();randomArticle()}});
 
 function afterLogin(){
   var rt=sessionStorage.getItem('return_to');sessionStorage.removeItem('return_to');
