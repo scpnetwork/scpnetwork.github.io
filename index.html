@@ -690,7 +690,7 @@ async function openArticle(slug){
   var T=document.getElementById('a-title'),M=document.getElementById('a-meta'),B=document.getElementById('a-body');
   T.textContent='Загрузка…';M.textContent='';B.textContent='';var RB=document.getElementById('rbox');RB.hidden=true;RB.innerHTML='';
   var d=await api('article',{slug:slug});
-  if(!d.ok){T.textContent='Страница не найдена';M.textContent='404';B.innerHTML='<p>Такой статьи нет или она ещё не опубликована.</p><button class="mini" data-page="home">На главную</button>';return}
+  if(!d.ok){var nf=d.error==='not_found';T.textContent=nf?'Страница не найдена':'Не удалось загрузить статью';M.textContent=nf?'404':'Ошибка';B.innerHTML='<p>'+(nf?'Такой статьи нет или она ещё не опубликована.':'Сервер не смог прочитать статью. Если вы администратор, проверьте, что в базе выполнены все SQL-файлы (поможет catchup.sql).')+'</p><button class="mini" data-page="home">На главную</button>';return}
   var a=d.article;T.textContent=a.kind==='object'&&a.scp_code?a.scp_code+' — '+a.title:a.title;document.title=T.textContent+' — SCP Foundation';
   M.textContent=KIND_RU[a.kind]+' · '+(a.published_at||'').slice(0,10);
   window.ART=a;B.innerHTML=artOpen(a)+bodyFmt(a)+'</div>'+(a.kind==='hub'?'<div id="hub-objs"></div>':'')+artFoot(a,isLead())+cmShell();mountAll(B);loadRating();loadComments();if(a.kind==='hub')loadHubObjects(a);
