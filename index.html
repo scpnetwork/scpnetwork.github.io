@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://t.me https://*.supabase.co https://*.telesco.pe; connect-src 'self' https://hbdpdpyteodiejciolgl.supabase.co; frame-src 'self' about:; object-src 'none'; base-uri 'self'; form-action 'self' https://oauth.telegram.org">
+<script>if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location=window.location.href}catch(e){}}</script>
 <base href="/">
 <script>try{document.documentElement.setAttribute("data-theme",localStorage.getItem("theme")==="light"?"light":"dark")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
 <meta charset="UTF-8"/>
@@ -280,6 +282,7 @@ html[data-theme="light"] .df.gap{color:#999}
 .fm .mdbar{position:sticky;top:var(--hdr);z-index:5;display:flex;flex-wrap:wrap;gap:8px;padding:6px 0;background:var(--panel,#111);border-bottom:1px solid var(--line)}
 .mdg{display:inline-flex;border:1px solid var(--line-hi)}.mdb{padding:5px 10px;font-size:13px;color:inherit;border-right:1px solid var(--line);cursor:pointer}.mdg .mdb:last-child{border-right:0}.mdb:hover{background:var(--line)}
 #e-body{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;line-height:1.5;tab-size:2}
+.po-o{margin:6px 0}.po-bar{display:inline-block;width:120px;height:8px;background:#222;vertical-align:middle}.po-bar i{display:block;height:100%;background:#f0c020}.mini.on{background:#e8e8e8;color:#000}
 </style>
 </head>
 <body>
@@ -438,7 +441,7 @@ function openPage(id,np){
     document.getElementById('g-body').innerHTML=p.b;
     show('generic');
     if(id==='users')renderUsers();
-    if(id==='polygon')polyList();if(id==='review')queueView('admin');if(id==='publish')queueView('lead');if(id==='manage')manageList();if(id==='moderation')modView('reports');if(id==='bot')botView();if(id==='audit')auditView('','');if(id==='stories')listView('story');if(id==='hubs')listView('hub');
+    if(id==='polygon')polyList();if(id==='review')queueView('admin');if(id==='publish')queueView('lead');if(id==='manage')manageList();if(id==='moderation')modView('reports');if(id==='bot')botView();if(id==='audit')auditView('','');if(id==='stories')listView('story');if(id==='hubs')hubsPage();
   }
   mark(document.querySelector('#nav .nav-item[data-page="'+id+'"]'));
   setNav(false);
@@ -599,7 +602,7 @@ function clsKey(v){v=String(v||'').toLowerCase();return /safe|безопас/.te
 function dotColor(a){var sec=String(a.secondary||'').trim().toLowerCase();if(clsKey(sec)==='thaumiel')return'#9b59b6';if(sec&&!/uncontained|не содерж/.test(sec))return'#4a90e2';return{safe:'#3cb043',euclid:'#f0c020',keter:'#e03c31',thaumiel:'#9b59b6',esoteric:'#4a90e2'}[clsKey(a.containment)]||'#888'}
 function objName(a){return a.kind==='object'&&a.scp_code?esc(a.scp_code)+(a.title?' — '+esc(a.title):''):esc(a.title)}
 function kindLabel(a){return a.kind==='object'?'Объект'+(a.scp_code?' '+esc(a.scp_code):''):KIND_RU[a.kind]}
-function errText(d){if(d.error==='server'&&d.detail)return 'server — '+d.detail;var E={already_reported:'вы уже жаловались на этот комментарий',own_comment:'на свой комментарий пожаловаться нельзя',too_fast:'слишком часто, подождите минуту',bad_body:'комментарий должен быть от 1 до 2000 символов',own_article:'свою статью оценивать нельзя',bad_parent:'комментарий, на который вы отвечаете, недоступен',bad_url:'ссылка на оригинал должна начинаться с http:// или https://',empty_hub:'выберите хаб для объекта',bad_hub:'выбранный хаб недоступен',bad_hub_code:'номер объекта должен оканчиваться на код хаба',code_taken:'такой код хаба уже занят',wrong_puzzle:'ответ на головоломку неверный, задания обновлены',bad_text:'напишите текст заявки (до 1000 символов)',too_many:'слишком много неверных ответов, обратитесь к администратору',already_applied:'заявка уже отправлена',bad_role:'выберите тип пользователя',empty_origin:'для перевода укажите автора оригинала и ссылку на него',bad_acs:'проверьте значения классов ACS',bad_code:'номер должен выглядеть как SCP-173 или SCP-232-NR',empty:'заполните название и текст',empty_object:'для объекта укажите номер, название, класс содержания и текст',comment_required:'для отклонения нужен комментарий',slug_taken:'такая ссылка уже занята',bad_slug:'недопустимая ссылка (a–z, 0–9, дефис; часть имён зарезервирована)',wrong_state:'статус статьи уже изменился',locked:'статью сейчас нельзя редактировать'};return (E[d.error]||d.error||'')+(d.detail?' ['+d.detail+']':'')}
+function errText(d){if(d.error==='server'&&d.detail)return 'server — '+d.detail;var E={already_reported:'вы уже жаловались на этот комментарий',own_comment:'на свой комментарий пожаловаться нельзя',too_fast:'слишком часто, подождите минуту',bad_body:'комментарий должен быть от 1 до 2000 символов',own_article:'свою статью оценивать нельзя',bad_parent:'комментарий, на который вы отвечаете, недоступен',bad_url:'ссылка на оригинал должна начинаться с http:// или https://',empty_hub:'выберите хаб для объекта',bad_hub:'выбранный хаб недоступен',bad_hub_code:'номер объекта должен оканчиваться на код хаба',code_taken:'такой код хаба уже занят',wrong_puzzle:'ответ на головоломку неверный, задания обновлены',bad_text:'напишите текст заявки (до 1000 символов)',too_many:'слишком много неверных ответов, обратитесь к администратору',already_applied:'заявка уже отправлена',bad_role:'выберите тип пользователя',poll_closed:'голосование сейчас закрыто',option_exists:'такой вариант уже есть',too_many_options:'вы уже добавили максимум своих вариантов',no_user_options:'в этом опросе нельзя добавлять свои варианты',bad_dates:'проверьте даты: окончание должно быть позже начала',bad_title:'укажите название опроса',few_options:'нужно минимум два варианта (по одному в строке)',empty_origin:'для перевода укажите автора оригинала и ссылку на него',bad_acs:'проверьте значения классов ACS',bad_code:'номер должен выглядеть как SCP-173 или SCP-232-NR',empty:'заполните название и текст',empty_object:'для объекта укажите номер, название, класс содержания и текст',comment_required:'для отклонения нужен комментарий',slug_taken:'такая ссылка уже занята',bad_slug:'недопустимая ссылка (a–z, 0–9, дефис; часть имён зарезервирована)',wrong_state:'статус статьи уже изменился',locked:'статью сейчас нельзя редактировать'};return (E[d.error]||d.error||'')+(d.detail?' ['+d.detail+']':'')}
 function acsBlock(a){var r=[['Класс содержания',ACS.cont[a.containment]],['Вторичный класс',ACS.sec[a.secondary]],['Класс нарушения',ACS.dis[a.disruption]],['Класс риска',ACS.risk[a.risk]]].filter(function(x){return x[1]});return r.length?'<table class="tbl">'+r.map(function(x){return'<tr><th>'+x[0]+'</th><td>'+x[1]+'</td></tr>'}).join('')+'</table>':''}
 function inl(t){return t.split(/(`[^`]+`)/).map(function(p,i){
   if(i%2)return'<code>'+p.slice(1,-1)+'</code>';
@@ -1352,6 +1355,7 @@ function mountHtml(el,html){
   f.srcdoc='<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src data: '+org+'; media-src '+org+'; style-src \'unsafe-inline\'; font-src data:; form-action \'none\'"><base target="_blank"><style>html,body{margin:0;padding:0;background:transparent;color:'+cs.color+';font:'+cs.fontSize+'/1.7 '+cs.fontFamily+'}a{color:'+cs.color+'}img{max-width:100%;height:auto}table{border-collapse:collapse}td,th{border:1px solid #666;padding:4px 8px}</style></head><body>'+clean+'</body></html>';
   f.onload=function(){
     var d=f.contentDocument;if(!d)return;
+    Array.prototype.forEach.call(d.querySelectorAll('a[href]'),function(a){a.target='_blank';a.rel='noopener noreferrer'});
     var fit=function(){f.style.height=d.documentElement.scrollHeight+'px'};fit();
     Array.prototype.forEach.call(d.images,function(i){i.addEventListener('load',fit)});
     if(window.ResizeObserver)new ResizeObserver(fit).observe(d.documentElement);
@@ -1413,7 +1417,7 @@ G().addEventListener('click',async function(e){
 });
 
 /* Журнал действий */
-var ACT_RU={publish:'опубликовал(а) статью',unpublish:'снял(а) с публикации',article_delete:'удалил(а) статью',article_reject:'отклонил(а) статью',article_edit:'отредактировал(а) опубликованную статью',version_restore:'откатил(а) статью',user_status:'изменил(а) статус пользователя',user_role:'изменил(а) роль пользователя',comment_delete:'удалил(а) комментарий',report_dismiss:'отклонил(а) жалобу на комментарий',tpl_save:'изменил(а) шаблон бота',tpl_reset:'сбросил(а) шаблон бота',tg_setup:'настроил(а) бота:'};
+var ACT_RU={publish:'опубликовал(а) статью',unpublish:'снял(а) с публикации',article_delete:'удалил(а) статью',article_reject:'отклонил(а) статью',article_edit:'отредактировал(а) опубликованную статью',version_restore:'откатил(а) статью',user_status:'изменил(а) статус пользователя',user_role:'изменил(а) роль пользователя',comment_delete:'удалил(а) комментарий',report_dismiss:'отклонил(а) жалобу на комментарий',tpl_save:'изменил(а) шаблон бота',tpl_reset:'сбросил(а) шаблон бота',tg_setup:'настроил(а) бота:',poll_save:'опрос:',poll_delete:'удалил(а) опрос',poll_hub:'создал(а) черновик хаба:'};
 window.AU={group:'',q:'',list:[],more:false};
 async function auditView(group,q){window.AU.group=group||'';window.AU.q=q||'';window.AU.list=[];await auditLoad(false)}
 async function auditLoad(append){
@@ -1445,6 +1449,76 @@ async function randomArticle(){
   history.pushState(null,'','/'+d.slug);openArticle(d.slug);
 }
 document.addEventListener('click',function(e){if(e.target.closest('[data-rand]')){e.preventDefault();randomArticle()}});
+
+/* Опросы в разделе «Хабы» */
+function dtl(iso){var d=new Date(iso);d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,16)}
+function pollState(p){return p.state==='open'?'идёт до '+dstr(p.ends_at):p.state==='upcoming'?'начнётся '+dstr(p.starts_at):'завершён '+dstr(p.ends_at)}
+async function hubsPage(){
+  await listView('hub');
+  G().insertAdjacentHTML('beforeend','<h2>Опросы</h2><div id="polls-box">Загрузка…</div>');
+  pollsLoad();
+}
+async function pollsLoad(){
+  var d=await api('polls_list'),box=document.getElementById('polls-box');if(!box)return;
+  if(!d.ok){box.textContent='Не удалось загрузить опросы';return}
+  window.PO=d;var ord={open:0,upcoming:1,closed:2};
+  var L=d.polls.slice().sort(function(a,b){return ord[a.state]-ord[b.state]||Date.parse(b.ends_at)-Date.parse(a.ends_at)});
+  box.innerHTML=(d.lead?'<p><button class="mini" data-po="new">Создать опрос</button></p><div id="po-form"></div>':'')+(L.length?L.map(function(p){return pollCard(p,d)}).join(''):'<p class="cm-hint">Опросов пока нет.</p>');
+}
+function pollCard(p,d){
+  var open=p.state==='open',mx=Math.max.apply(null,p.options.map(function(o){return o.votes||0}).concat(1));
+  var h='<div class="note" data-pid="'+p.id+'"><b>'+esc(p.title)+'</b> <span class="blk">'+pollState(p)+'</span>';
+  if(p.body)h+='<div class="cm-b">'+inl(esc(p.body)).replace(/\n/g,'<br>')+'</div>';
+  if(p.hub_title)h+='<div class="cm-q">Предложение хаба: '+esc(p.hub_title)+(p.hub_code?' (-'+esc(p.hub_code)+')':'')+'</div>';
+  h+=p.options.map(function(o){
+    var sel=p.mine===o.id;
+    return'<div class="po-o">'+(open&&d.can_vote?'<button class="mini'+(sel?' on':'')+'" data-po="vote" data-id="'+o.id+'">'+(sel?'✓ ':'')+esc(o.text)+'</button>':'<span>'+(sel?'✓ ':'')+esc(o.text)+'</span>')+(o.by_user?' <span class="dt">(предложено участником)</span>':'')+(o.votes!=null?' <span class="po-bar"><i style="width:'+Math.round(o.votes/mx*100)+'%"></i></span> '+o.votes:'')+'</div>';
+  }).join('');
+  if(p.total!=null)h+='<div class="dt">Всего голосов: '+p.total+'</div>';
+  if(open&&!d.can_vote)h+='<div class="cm-hint">Голосовать могут только зарегистрированные пользователи с одобренной заявкой.</div>';
+  if(open&&p.mine)h+='<div><a href="#" data-po="unvote">Снять голос</a></div>';
+  if(open&&d.can_vote&&p.allow_user_options)h+='<div class="fm"><input class="po-new" maxlength="120" placeholder="Свой вариант"> <button class="mini" data-po="addopt">Добавить вариант</button></div>';
+  h+='<div class="cm-a"><a href="#" data-po="comments">Обсуждение</a>'+(d.lead?' <a href="#" data-po="edit">Изменить</a> <a href="#" data-po="del">Удалить</a>'+(p.hub_title?' <a href="#" data-po="hub">Создать черновик хаба</a>':''):'')+'</div><div class="po-c"></div><span class="cm-err"></span></div>';
+  return h;
+}
+function pollForm(p){
+  p=p||{title:'',body:'',starts_at:new Date().toISOString(),ends_at:new Date(Date.now()+7*864e5).toISOString(),allow_user_options:true,hub_title:'',hub_code:'',options:[{text:''},{text:''}]};
+  return'<div class="note fm" id="po-edit" data-pid="'+(p.id||'')+'"><b>'+(p.id?'Изменить опрос':'Новый опрос')+'</b>'
+   +'<label>Название</label><input id="pf-t" maxlength="200" value="'+esc(p.title)+'">'
+   +'<label>Описание</label><textarea id="pf-b" rows="4" maxlength="3000">'+esc(p.body||'')+'</textarea>'
+   +'<label>Начало</label><input type="datetime-local" id="pf-s" value="'+dtl(p.starts_at)+'"><label>Окончание</label><input type="datetime-local" id="pf-e" value="'+dtl(p.ends_at)+'">'
+   +'<label>Варианты (по одному в строке)</label><textarea id="pf-o" rows="5">'+esc(p.options.map(function(o){return o.text}).join('\n'))+'</textarea>'
+   +'<label><input type="checkbox" id="pf-u"'+(p.allow_user_options!==false?' checked':'')+'> Участники могут добавлять свои варианты</label>'
+   +'<label>Предложение хаба: название (необязательно)</label><input id="pf-ht" maxlength="100" value="'+esc(p.hub_title||'')+'"><label>Код хаба (необязательно)</label><input id="pf-hc" maxlength="8" value="'+esc(p.hub_code||'')+'">'
+   +'<button class="mini" data-po="save">Сохранить</button> <button class="mini" data-po="cancel">Отмена</button> <span class="cm-err" id="pf-err"></span></div>';
+}
+async function pollComments(box,pid){
+  var d=await api('poll_comments',{poll_id:pid});if(!d.ok){box.textContent='Не удалось загрузить';return}
+  var h=d.comments.map(function(c){return'<div class="cm"><div class="cm-h">'+(c.deleted?'<i>удалён</i>':uLink(c.author_name,c.author_handle,1)+' <span class="role">'+(ROLE_C[c.role]||'')+'</span>')+' <span class="dt">'+dstr(c.created_at)+'</span></div><div class="cm-b">'+(c.deleted?'<i>комментарий удалён</i>':inl(esc(c.body)).replace(/\n/g,'<br>'))+'</div>'+(!c.deleted&&c.can_del?'<div class="cm-a"><a href="#" data-po="cdel" data-id="'+c.id+'">Удалить</a></div>':'')+'</div>'}).join('')||'<p class="cm-hint">Комментариев пока нет.</p>';
+  h+=acted()?'<div class="fm"><textarea rows="3" maxlength="1000"></textarea><button class="mini" data-po="csend">Отправить</button> <span class="cm-err"></span></div>':'<p class="cm-hint">Комментировать могут зарегистрированные пользователи.</p>';
+  box.innerHTML=h;box.dataset.open='1';
+}
+document.addEventListener('click',async function(e){
+  var t=e.target.closest('[data-po]');if(!t)return;e.preventDefault();var k=t.dataset.po;
+  var card=t.closest('[data-pid]'),pid=card&&card.dataset.pid,er=card&&card.querySelector('.cm-err'),P=window.PO;
+  var done=function(d){if(!d.ok){if(er)er.textContent=errText(d);return false}return true};
+  if(k==='new'){document.getElementById('po-form').innerHTML=pollForm();return}
+  if(k==='cancel'){var f=document.getElementById('po-edit');if(f)f.remove();return}
+  if(k==='edit'){var p=P.polls.filter(function(x){return x.id===pid})[0];document.getElementById('po-form').innerHTML=pollForm(p);return}
+  if(k==='save'){
+    var d0=await api('poll_save',{id:card.dataset.pid||null,title:V('pf-t'),body:V('pf-b'),starts_at:new Date(V('pf-s')).toISOString(),ends_at:new Date(V('pf-e')).toISOString(),options:V('pf-o').split('\n'),allow_user_options:document.getElementById('pf-u').checked,hub_title:V('pf-ht'),hub_code:V('pf-hc')});
+    if(!d0.ok){document.getElementById('pf-err').textContent=errText(d0);return}pollsLoad();return;
+  }
+  if(k==='del'){if(confirm('Удалить опрос вместе с голосами и обсуждением?')&&done(await api('poll_delete',{id:pid})))pollsLoad();return}
+  if(k==='hub'){if(!confirm('Создать черновик хаба по этому опросу?'))return;var dh=await api('poll_make_hub',{id:pid});if(done(dh)){openPage('polygon');polyEdit(dh.id)}return}
+  if(k==='vote'){if(done(await api('poll_vote',{poll_id:pid,option_id:t.dataset.id})))pollsLoad();return}
+  if(k==='unvote'){if(done(await api('poll_vote',{poll_id:pid,option_id:null})))pollsLoad();return}
+  if(k==='addopt'){var inp=card.querySelector('.po-new');if(done(await api('poll_add_option',{poll_id:pid,text:inp.value})))pollsLoad();return}
+  var box=card.querySelector('.po-c');
+  if(k==='comments'){if(box.dataset.open){box.innerHTML='';box.dataset.open='';}else pollComments(box,pid);return}
+  if(k==='csend'){var ta=box.querySelector('textarea'),d2=await api('poll_comment_add',{poll_id:pid,body:ta.value});if(!d2.ok){box.querySelector('.cm-err').textContent=errText(d2);return}pollComments(box,pid);return}
+  if(k==='cdel'){if(confirm('Удалить комментарий?')){var d3=await api('poll_comment_delete',{id:t.dataset.id});if(d3.ok)pollComments(box,pid)}}
+});
 
 function afterLogin(){
   var rt=sessionStorage.getItem('return_to');sessionStorage.removeItem('return_to');
